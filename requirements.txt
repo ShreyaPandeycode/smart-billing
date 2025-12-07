@@ -6,5 +6,6 @@ pillow
 pyzbar
 requests
 gdown
+reportlab
 
 
