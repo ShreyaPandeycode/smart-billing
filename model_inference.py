@@ -26,7 +26,18 @@ import shutil
 import requests
 from pathlib import Path
 
-import cv2
+
+# near top of model_inference.py
+try:
+    import cv2
+except Exception as e:
+    raise RuntimeError(
+        "OpenCV (cv2) import failed in model_inference. "
+        "Streamlit Cloud may not have a compatible opencv wheel. "
+        "You can either: 1) try opencv-python-headless in requirements.txt, "
+        "2) deploy to Render/Docker, or 3) run inference on a separate server."
+    ) from e
+
 import numpy as np
 from PIL import Image, ImageDraw, ImageFont
 
