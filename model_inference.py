@@ -31,12 +31,8 @@ from pathlib import Path
 try:
     import cv2
 except Exception as e:
-    raise RuntimeError(
-        "OpenCV (cv2) import failed in model_inference. "
-        "Streamlit Cloud may not have a compatible opencv wheel. "
-        "You can either: 1) try opencv-python-headless in requirements.txt, "
-        "2) deploy to Render/Docker, or 3) run inference on a separate server."
-    ) from e
+    cv2 = None
+    print("WARNING: cv2 failed to import inside model_inference.")
 
 import numpy as np
 from PIL import Image, ImageDraw, ImageFont
@@ -239,7 +235,10 @@ def decode_barcode_from_crop(crop_bgr):
         return None
 
     try:
+       if cv2 is None:
+             return None
         gray = cv2.cvtColor(crop_bgr, cv2.COLOR_BGR2GRAY)
+
         res = zbar_decode(gray)
         if res:
             return res[0].data.decode("utf-8")
@@ -255,6 +254,8 @@ def decode_barcode_from_crop(crop_bgr):
 # Draw annotations (PIL) - large readable labels
 # -------------------------
 def draw_annotations(img_bgr, detections, line_thickness=6, font_size=28):
+     if cv2 is None:
+        return None
     img_rgb = cv2.cvtColor(img_bgr, cv2.COLOR_BGR2RGB)
     pil = Image.fromarray(img_rgb)
     draw = ImageDraw.Draw(pil)
