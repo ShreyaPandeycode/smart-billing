@@ -56,6 +56,9 @@ with tab1:
     if img_input is not None:
         with st.spinner("Running detection..."):
             dets, annotated = run_inference_on_image(img_input, conf_thresh=conf_thresh, pad_ratio=pad_ratio)
+      if cv2 is None:
+        st.error("OpenCV is not available on this server. Detection preview disabled.")
+      else:
         st.image(cv2.cvtColor(annotated, cv2.COLOR_BGR2RGB), use_column_width=True)
         st.write("Detections:", dets)
         # assign tracks
