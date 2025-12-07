@@ -193,6 +193,8 @@ def _load_image(image_input):
     """
     # file path
     if isinstance(image_input, (str,)) and os.path.exists(image_input):
+        if cv2 is None:
+              return None
         img = cv2.imread(image_input)
         if img is None:
             raise ValueError(f"OpenCV failed to read image: {image_input}")
@@ -209,6 +211,8 @@ def _load_image(image_input):
 
         if data:
             arr = np.frombuffer(data, np.uint8)
+             if cv2 is None:
+                return None
             img = cv2.imdecode(arr, cv2.IMREAD_COLOR)
             if img is not None:
                 return img
@@ -220,6 +224,8 @@ def _load_image(image_input):
         if hasattr(image_input, "seek"):
             image_input.seek(0)
         pil = Image.open(image_input).convert("RGB")
+        if cv2 is None:
+              return None
         return cv2.cvtColor(np.array(pil), cv2.COLOR_RGB2BGR)
     except Exception as e:
         raise ValueError("Could not load image: " + str(e))
@@ -242,6 +248,8 @@ def decode_barcode_from_crop(crop_bgr):
         res = zbar_decode(gray)
         if res:
             return res[0].data.decode("utf-8")
+             if cv2 is None:
+                  return None
         _, th = cv2.threshold(gray, 0, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)
         res = zbar_decode(th)
         if res:
@@ -363,6 +371,8 @@ if __name__ == "__main__":
     if os.path.exists(test_path):
         dets, ann = run_inference_on_image(test_path)
         print("Detections:", dets)
+         if cv2 is None:
+            return None
         cv2.imwrite("annotated_debug.jpg", ann)
         print("Saved annotated_debug.jpg")
     else:
