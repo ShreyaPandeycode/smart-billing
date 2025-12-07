@@ -1,0 +1,7 @@
+{
+  "dairy_milk": {"name": "Cadbury Dairy Milk", "price": 40.0, "sku": "DAIRY001"},
+  "maggi": {"name": "Maggi 2-Minute Noodles", "price": 14.0, "sku": "MAGGI001"},
+  "jim_jam": {"name": "Jim Jam Biscuits", "price": 20.0, "sku": "JIM001"},
+  "bhujiya": {"name": "Haldiram Bhujiya", "price": 35.0, "sku": "BHUIYA001"},
+  "pears": {"name": "Pears Soap", "price": 45.0, "sku": "PEARS001"}
+}
