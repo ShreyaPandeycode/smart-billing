@@ -1,6 +1,14 @@
 # app.py
 import streamlit as st
-import cv2
+# top of app.py
+import traceback
+try:
+    import cv2
+except Exception as e:
+    cv2 = None
+    print("WARNING: cv2 failed to import. Some features will be disabled.")
+    traceback.print_exc()
+
 import numpy as np
 import json
 from io import BytesIO
